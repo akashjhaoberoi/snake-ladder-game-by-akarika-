@@ -1,0 +1,15 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run Snake & Ladder (Console)",
+			"type": "shell",
+			"command": "D:\\slpython\\.venv\\Scripts\\python.exe",
+			"args": [
+				"index(Console Ver).py"
+			],
+			"isBackground": false,
+			"group": "test"
+		}
+	]
+}

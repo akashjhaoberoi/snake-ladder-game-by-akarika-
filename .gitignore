@@ -1,28 +1,4 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Virtual environments
-.venv/
-venv/
-ENV/
-
-# VS Code
-.vscode/
-
-# OS junk
-.DS_Store
-Thumbs.db
-
-# Archives / build outputs
-*.zip
-
-# Installers / large binaries
-*.msi
-
-# Local duplicates
-Credits_custom.png.png
+# Intentionally empty: do not exclude any files/folders.
 
 # Pygame / misc
 *.log
