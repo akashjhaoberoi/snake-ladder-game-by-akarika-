@@ -1,12 +1,24 @@
 let gameState = {};
 let config = {};
-let isGameOver = false;
+let localMode = false;
+const localConfig = {
+    snakes: {99:54,87:36,62:19,48:9,37:10,33:6,28:1,21:5,17:7,4:2},
+    ladders: {2:38,7:15,21:43,28:85,50:67,54:88,60:72,76:99,78:99,91:100},
+    board_size: 100
+};
+const initialState = () => ({
+    players: [
+        {id: 1, name: 'Player 1', position: 0, color: '#ef476f'},
+        {id: 2, name: 'Player 2', position: 0, color: '#118ab2'}
+    ],
+    current_player: 0, dice_value: 0, game_over: false, winner: null
+});
 
 // Initialize the game
 async function initGame() {
     try {
         // Fetch configuration
-        const configResponse = await fetch('/api/config');
+        const configResponse = await fetch('api/config');
         config = await configResponse.json();
         
         // Fetch initial game state
@@ -19,14 +31,19 @@ async function initGame() {
         document.getElementById('roll-btn').addEventListener('click', rollDice);
         document.getElementById('reset-btn').addEventListener('click', resetGame);
     } catch (error) {
-        console.error('Error initializing game:', error);
+        localMode = true;
+        config = localConfig;
+        gameState = initialState();
+        createBoard();
+        updateUI();
     }
 }
 
 // Update game state from server
 async function updateGameState() {
     try {
-        const response = await fetch('/api/game/state');
+        if (localMode) return;
+        const response = await fetch('api/game/state');
         gameState = await response.json();
         updateUI();
     } catch (error) {
@@ -66,19 +83,6 @@ function createBoard() {
         board.appendChild(square);
     }
     
-    // Reverse every other row to create the snake pattern
-    const squares = Array.from(document.querySelectorAll('.square'));
-    for (let row = 0; row < 10; row++) {
-        if (row % 2 === 1) {
-            // Reverse this row
-            const rowStart = row * 10;
-            const rowSquares = squares.slice(rowStart, rowStart + 10).reverse();
-            rowSquares.forEach((square, index) => {
-                square.style.order = rowStart + (9 - index);
-            });
-        }
-    }
-    
     updatePlayerPositions();
 }
 
@@ -108,6 +112,7 @@ function updateUI() {
     const currentPlayer = gameState.players[gameState.current_player];
     const currentPlayerDiv = document.getElementById('current-player');
     const diceResultDiv = document.getElementById('dice-result');
+    const diceImage = document.getElementById('dice-image');
     const gameStatusDiv = document.getElementById('game-status');
     const rollBtn = document.getElementById('roll-btn');
     
@@ -119,7 +124,8 @@ function updateUI() {
     
     // Update dice result
     if (gameState.dice_value) {
-        diceResultDiv.textContent = `🎲 ${gameState.dice_value}`;
+        diceImage.src = `static/assets/dice${gameState.dice_value}.png`;
+        diceImage.alt = `Dice showing ${gameState.dice_value}`;
     }
     
     // Update game status
@@ -139,6 +145,21 @@ function updateUI() {
 // Roll the dice
 async function rollDice() {
     try {
+        if (localMode) {
+            const diceValue = Math.floor(Math.random() * 6) + 1;
+            const player = gameState.players[gameState.current_player];
+            const next = player.position + diceValue;
+            gameState.dice_value = diceValue;
+            if (next <= 100) player.position = config.snakes[next] || config.ladders[next] || next;
+            if (player.position === 100) {
+                gameState.game_over = true;
+                gameState.winner = player.name;
+            } else if (diceValue !== 6) {
+                gameState.current_player = (gameState.current_player + 1) % gameState.players.length;
+            }
+            updateUI();
+            return;
+        }
         const response = await fetch('/api/game/roll', {
             method: 'POST',
             headers: {
@@ -157,6 +178,11 @@ async function rollDice() {
 // Reset the game
 async function resetGame() {
     try {
+        if (localMode) {
+            gameState = initialState();
+            updateUI();
+            return;
+        }
         const response = await fetch('/api/game/reset', {
             method: 'POST',
             headers: {

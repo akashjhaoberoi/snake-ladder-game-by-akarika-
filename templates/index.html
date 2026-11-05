@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake & Ladder Game</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <div class="container">
@@ -12,13 +12,15 @@
         
         <div class="game-wrapper">
             <div class="board-container">
-                <div id="board" class="board"></div>
+                <div id="board" class="board" aria-label="Snakes and ladders board"></div>
             </div>
             
             <div class="controls">
                 <div id="game-info" class="game-info">
                     <div id="current-player" class="current-player">Player 1's Turn</div>
-                    <div id="dice-result" class="dice-result"></div>
+                    <div id="dice-result" class="dice-result">
+                        <img id="dice-image" src="static/assets/dice1.png" alt="Dice">
+                    </div>
                 </div>
                 
                 <button id="roll-btn" class="btn btn-roll">Roll Dice</button>
@@ -39,6 +41,6 @@
         </div>
     </div>
 
-    <script src="/static/game.js"></script>
+    <script src="static/game.js"></script>
 </body>
 </html>
