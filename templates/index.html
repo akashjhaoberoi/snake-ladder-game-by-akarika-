@@ -3,44 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake & Ladder Game</title>
+    <title>Snakes &amp; Ladders</title>
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Snakes & Ladders</h1>
-        
-        <div class="game-wrapper">
-            <div class="board-container">
-                <div id="board" class="board" aria-label="Snakes and ladders board"></div>
-            </div>
-            
-            <div class="controls">
-                <div id="game-info" class="game-info">
-                    <div id="current-player" class="current-player">Player 1's Turn</div>
-                    <div id="dice-result" class="dice-result">
-                        <img id="dice-image" src="static/assets/dice1.png" alt="Dice">
-                    </div>
-                </div>
-                
-                <button id="roll-btn" class="btn btn-roll">Roll Dice</button>
-                <button id="reset-btn" class="btn btn-reset">New Game</button>
-                
-                <div id="game-status" class="game-status"></div>
-                
-                <div class="legend">
-                    <h3>Legend</h3>
-                    <div class="legend-item">
-                        <span class="ladder-icon">🪜</span> Ladder (Climb up!)
-                    </div>
-                    <div class="legend-item">
-                        <span class="snake-icon">🐍</span> Snake (Slide down!)
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div id="intro-screen" class="screen intro-screen">
+        <img src="static/assets/intropic.png" alt="Snakes and Ladders">
+        <button id="skip-intro" class="btn btn-roll">Skip intro</button>
     </div>
-
+    <main id="app" class="container hidden">
+        <section id="menu-screen" class="screen menu-screen">
+            <h1>Snakes &amp; Ladders</h1>
+            <div class="menu-buttons">
+                <button id="play-menu" class="btn btn-roll">Play</button>
+                <button id="credits-menu" class="btn btn-purple">Credits</button>
+                <button id="mute-menu" class="btn btn-purple">Mute Music</button>
+                <button id="quit-menu" class="btn btn-reset">Quit</button>
+            </div>
+        </section>
+        <section id="options-screen" class="screen menu-screen hidden">
+            <h2>Choose Players</h2>
+            <p class="menu-subtitle">Play alone against the Computer or invite friends.</p>
+            <div class="menu-buttons">
+                <button class="btn btn-roll player-choice" data-players="2" data-computer="true">Single Player</button>
+                <button class="btn btn-roll player-choice" data-players="2">2 Players</button>
+                <button class="btn btn-roll player-choice" data-players="3">3 Players</button>
+                <button class="btn btn-roll player-choice" data-players="4">4 Players</button>
+                <button id="options-back" class="btn btn-reset">Back</button>
+            </div>
+        </section>
+        <section id="credits-screen" class="screen credits-screen hidden">
+            <img src="static/assets/credits_custom.png" alt="Credits">
+            <button id="credits-back" class="btn btn-reset">Back</button>
+        </section>
+        <section id="game-screen" class="hidden">
+            <div class="game-header">
+                <button id="game-back" class="btn btn-reset">Menu</button>
+                <h1>Snakes &amp; Ladders</h1>
+                <button id="music-toggle" class="btn btn-purple">Mute Music</button>
+            </div>
+            <div class="game-wrapper">
+                <div class="board-container"><div id="board" class="board" aria-label="Snakes and ladders board"></div></div>
+                <div class="controls">
+                    <div class="game-info">
+                        <div id="current-player" class="current-player"></div>
+                        <div id="dice-result" class="dice-result"><img id="dice-image" src="static/assets/dice1.png" alt="Dice"></div>
+                    </div>
+                    <button id="roll-btn" class="btn btn-roll">Roll Dice</button>
+                    <button id="reset-btn" class="btn btn-reset">New Game</button>
+                    <div id="game-status" class="game-status"></div>
+                    <div id="player-list" class="player-list"></div>
+                    <div class="legend"><h3>Legend</h3><div class="legend-item">🪜 Ladder (Climb up!)</div><div class="legend-item">🐍 Snake (Slide down!)</div></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <audio id="music" src="static/assets/music.wav" loop preload="auto"></audio>
+    <audio id="ladder-sound" src="static/assets/ladder.wav" preload="auto"></audio>
+    <audio id="snake-sound" src="static/assets/snake.wav" preload="auto"></audio>
+    <audio id="win-sound" src="static/assets/Win.wav" preload="auto"></audio>
+    <audio id="lose-sound" src="static/assets/lose.wav" preload="auto"></audio>
     <script src="static/game.js"></script>
 </body>
 </html>
