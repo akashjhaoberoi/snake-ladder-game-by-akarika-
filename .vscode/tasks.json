@@ -10,6 +10,16 @@
 			],
 			"isBackground": false,
 			"group": "test"
+		},
+		{
+			"label": "Run Snake & Ladder (Animated)",
+			"type": "shell",
+			"command": "D:\\slpython\\.venv\\Scripts\\python.exe",
+			"args": [
+				"index.py"
+			],
+			"isBackground": false,
+			"group": "test"
 		}
 	]
 }

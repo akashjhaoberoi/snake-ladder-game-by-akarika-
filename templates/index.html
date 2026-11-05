@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake & Ladder Game</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Snakes & Ladders</h1>
+        
+        <div class="game-wrapper">
+            <div class="board-container">
+                <div id="board" class="board"></div>
+            </div>
+            
+            <div class="controls">
+                <div id="game-info" class="game-info">
+                    <div id="current-player" class="current-player">Player 1's Turn</div>
+                    <div id="dice-result" class="dice-result"></div>
+                </div>
+                
+                <button id="roll-btn" class="btn btn-roll">Roll Dice</button>
+                <button id="reset-btn" class="btn btn-reset">New Game</button>
+                
+                <div id="game-status" class="game-status"></div>
+                
+                <div class="legend">
+                    <h3>Legend</h3>
+                    <div class="legend-item">
+                        <span class="ladder-icon">🪜</span> Ladder (Climb up!)
+                    </div>
+                    <div class="legend-item">
+                        <span class="snake-icon">🐍</span> Snake (Slide down!)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/game.js"></script>
+</body>
+</html>

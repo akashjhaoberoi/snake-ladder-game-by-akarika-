@@ -37,3 +37,14 @@ python -m venv .venv
 ## Notes
 - The game runs fullscreen at a fixed size (1366x768). On different monitor resolutions, the overall layout may not look identical.
 - If you only want to replace the credits image later, overwrite `credits_custom.png` with your new image (same filename).
+
+## Run the web version
+
+The browser version uses Flask and runs on `http://localhost:5000`:
+
+```powershell
+.\.venv\Scripts\python.exe web_app.py
+```
+
+Open the displayed address in a browser to play. Install the dependencies first
+with `.\.venv\Scripts\python.exe -m pip install -r requirements.txt` if needed.
