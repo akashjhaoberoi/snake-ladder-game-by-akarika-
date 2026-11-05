@@ -31,6 +31,7 @@ body {
 .music-credit strong { color: #ffe66d; }
 .game-header { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 12px; }
 .game-header h1 { margin: 0; font-size: clamp(2em, 5vw, 3.8em); }
+.dashboard-label { color: #8a5a00; font-size: 12px; font-weight: 800; letter-spacing: 1px; }
 .game-header .btn { flex: 0 0 auto; }
 .player-list { display: flex; flex-direction: column; gap: 5px; padding: 10px 12px; background: rgba(255,255,255,.72); border-radius: 14px; }
 .player-row { display: flex; align-items: center; gap: 8px; color: #5b5368; }
@@ -117,7 +118,7 @@ h1 {
 .btn-roll { background: linear-gradient(135deg,#ef476f,#b9345d); }
 .btn-reset { background: linear-gradient(135deg,#4ecdc4,#168aad); }
 .btn:disabled { cursor: not-allowed; opacity: .5; }
-.game-status { display: flex; min-height: 52px; align-items: center; justify-content: center; padding: 12px; background: #fff4bd; border: 3px solid #f6c445; border-radius: 14px; color: #856404; font-weight: 800; text-align: center; }
+.game-status { display: flex; min-height: 66px; align-items: center; justify-content: center; padding: 12px; background: #fff4bd; border: 3px solid #f6c445; border-radius: 14px; color: #856404; font-weight: 800; text-align: center; }
 .game-status.winner { background: #c8f7cf; border-color: #28a745; color: #176b3a; font-size: 18px; }
 .legend { padding: 15px; background: rgba(255,255,255,.7); border: 3px solid #f6c445; border-radius: 14px; }
 .legend h3 { margin-bottom: 8px; color: #4d236b; }

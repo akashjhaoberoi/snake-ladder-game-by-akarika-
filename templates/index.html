@@ -18,7 +18,7 @@
     </div>
     <main id="app" class="container hidden">
         <section id="menu-screen" class="screen menu-screen">
-            <h1>Snakes &amp; Ladders</h1>
+            <h1>Game Dashboard</h1>
             <div class="menu-buttons">
                 <button id="play-menu" class="btn btn-roll">Play</button>
                 <button id="credits-menu" class="btn btn-purple">Credits</button>
@@ -56,12 +56,15 @@
                 <div class="board-container"><div id="board" class="board" aria-label="Snakes and ladders board"></div></div>
                 <div class="controls">
                     <div class="game-info">
+                        <div class="dashboard-label">CURRENT TURN</div>
                         <div id="current-player" class="current-player"></div>
+                        <div class="dashboard-label">DICE RESULT</div>
                         <div id="dice-result" class="dice-result"><img id="dice-image" src="static/assets/dice1.png" alt="Dice"></div>
                     </div>
                     <button id="roll-btn" class="btn btn-roll">Roll Dice</button>
                     <button id="reset-btn" class="btn btn-reset">New Game</button>
                     <div id="game-status" class="game-status"></div>
+                    <div class="dashboard-label">PLAYER POSITIONS</div>
                     <div id="player-list" class="player-list"></div>
                     <div class="legend"><h3>Legend</h3><div class="legend-item">🪜 Ladder (Climb up!)</div><div class="legend-item">🐍 Snake (Slide down!)</div></div>
                 </div>

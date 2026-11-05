@@ -7,6 +7,7 @@ let state;
 let musicMuted = false;
 let computerPlayer = false;
 let introTimer;
+let isMoving = false;
 
 const $ = (id) => document.getElementById(id);
 function show(id) {
@@ -46,6 +47,10 @@ function createBoard() {
         if (config.snakes[number]) square.classList.add('snake');
         if (config.ladders[number]) square.classList.add('ladder');
         square.innerHTML = `<span class="square-number">${number}</span><div class="square-content"></div>`;
+        const row = Math.floor((number - 1) / 10);
+        const column = row % 2 === 0 ? (number - 1) % 10 : 9 - ((number - 1) % 10);
+        square.style.gridRow = String(10 - row);
+        square.style.gridColumn = String(column + 1);
         board.appendChild(square);
     }
 }
@@ -68,22 +73,45 @@ function updateUI() {
     $('current-player').textContent = state.game_over ? `${state.winner} wins!` : `${player.name}'s Turn`;
     $('current-player').style.color = player.color;
     if (state.dice_value) $('dice-image').src = `static/assets/dice${state.dice_value}.png`;
-    $('game-status').textContent = state.game_over ? `🎉 ${state.winner} Wins! 🎉` : `${player.name} at Position ${player.position}`;
+    $('game-status').textContent = state.game_over ? `🎉 ${state.winner} Wins! 🎉` : (state.last_move || `${player.name} at Position ${player.position}`);
     $('game-status').classList.toggle('winner', state.game_over);
     $('roll-btn').disabled = state.game_over || player.name === 'Computer';
     $('player-list').innerHTML = state.players.map((item, index) => `<div class="player-row ${index === state.current_player && !state.game_over ? 'active' : ''}"><span style="background:${item.color}"></span>${item.name}<strong>${item.position}</strong></div>`).join('');
     updatePositions();
 }
-function takeTurn() {
-    if (state.game_over) return;
+function wait(milliseconds) {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+async function animateMove(player, start, end) {
+    const direction = end >= start ? 1 : -1;
+    for (let position = start + direction; direction > 0 ? position <= end : position >= end; position += direction) {
+        player.position = position;
+        updatePositions();
+        await wait(90);
+    }
+}
+async function takeTurn() {
+    if (state.game_over || isMoving) return;
+    isMoving = true;
     const player = state.players[state.current_player];
     const roll = Math.floor(Math.random() * 6) + 1;
+    const start = player.position;
     const next = player.position + roll;
     state.dice_value = roll;
+    state.last_move = `${player.name} rolled ${roll}: ${start} → ${next > 100 ? start : next}`;
+    updateUI();
+    await wait(300);
     if (next <= 100) {
-        if (config.ladders[next]) playSound('ladder-sound');
-        if (config.snakes[next]) playSound('snake-sound');
-        player.position = config.snakes[next] || config.ladders[next] || next;
+        await animateMove(player, start, next);
+        const landing = config.snakes[next] || config.ladders[next] || next;
+        if (landing !== next) {
+            playSound(config.ladders[next] ? 'ladder-sound' : 'snake-sound');
+            await wait(250);
+            await animateMove(player, next, landing);
+            state.last_move = config.ladders[next] ? `${player.name} climbed from ${next} to ${landing}!` : `${player.name} slid from ${next} to ${landing}!`;
+        }
+    } else {
+        state.last_move = `${player.name} rolled ${roll}: needs an exact roll and stays on ${start}.`;
     }
     if (player.position === 100) {
         state.game_over = true;
@@ -92,6 +120,7 @@ function takeTurn() {
     } else if (roll !== 6) {
         state.current_player = (state.current_player + 1) % state.players.length;
     }
+    isMoving = false;
     updateUI();
     if (!state.game_over && state.players[state.current_player].name === 'Computer') setTimeout(takeTurn, 700);
 }
